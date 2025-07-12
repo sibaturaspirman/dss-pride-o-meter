@@ -1,12 +1,16 @@
 'use client';
 import Image from "next/image";
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { pridefulQuestions, funTriviaQuestions } from '@/data/questions';
 import { getRandomItems } from '@/utils/shuffle';
 
 export default function TriviaGrid() {
+  const router = useRouter();
   const [questions, setQuestions] = useState([]);
   const [selected, setSelected] = useState(new Set());
+  const [result, setResult] = useState(null);
+  const [percentage, setPercentage] = useState(null);
 
   useEffect(() => {
     const selectedPrideful = getRandomItems(pridefulQuestions, 4).map((q, i) => ({
@@ -37,9 +41,39 @@ export default function TriviaGrid() {
     });
   };
 
+  function getFinalPercentage(count) {
+    const raw = count * 11;
+  
+    if (raw <= 44) return 10 * count;         // 1–4 → 10%, 20%, 30%, 40%
+    if (raw === 55) return 60;                // 5 → 60%
+    if (raw === 66) return 70;                // 6 → 70%
+    if (raw === 77) return 80;                // 7 → 80%
+    if (raw === 88) return 90;                // 8 → 90%
+    return 100;                               // 9 → 100%
+  }
+  
+  function getResultLabel(percentage) {
+    if (percentage <= 40) return "Warga Rasa Turis";
+    if (percentage <= 70) return "Masyarakat Umum";
+    return "Indonesia Tulen!";
+  }
+
   const handleSubmit = () => {
     const selectedQuestions = questions.filter((q) => selected.has(q.id));
+    const percentageValue = getFinalPercentage(selectedQuestions.length);
+    const label = getResultLabel(percentageValue);
+  
+    setPercentage(percentageValue);
+    setResult(label);
+  
+    if (typeof window !== "undefined") {
+      localStorage.setItem("quizResultLabel", label);
+      localStorage.setItem("quizResultPercentage", String(percentageValue));
+    }
+  
     console.log("📝 Selected answers:", selectedQuestions);
+    console.log("📊 Result:", label, `${percentageValue}%`);
+    router.push("/result");
   };
 
   return (
@@ -89,6 +123,7 @@ export default function TriviaGrid() {
                             className={`w-full relative transition-opacity ${isSelected ? 'opacity-0' : 'opacity-100'}`}
                             width={264}
                             height={264}
+                            priority
                             />
 
                             <Image
