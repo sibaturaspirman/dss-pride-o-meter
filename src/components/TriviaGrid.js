@@ -11,6 +11,8 @@ export default function TriviaGrid() {
   const [selected, setSelected] = useState(new Set());
   const [result, setResult] = useState(null);
   const [percentage, setPercentage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(() => {
     const selectedPrideful = getRandomItems(pridefulQuestions, 4).map((q, i) => ({
@@ -58,7 +60,8 @@ export default function TriviaGrid() {
     return "Indonesia Tulen!";
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    setIsLoading(true);
     const selectedQuestions = questions.filter((q) => selected.has(q.id));
     const percentageValue = getFinalPercentage(selectedQuestions.length);
     const label = getResultLabel(percentageValue);
@@ -66,19 +69,57 @@ export default function TriviaGrid() {
     setPercentage(percentageValue);
     setResult(label);
   
+    // Simpan ke localStorage
     if (typeof window !== "undefined") {
       localStorage.setItem("quizResultLabel", label);
       localStorage.setItem("quizResultPercentage", String(percentageValue));
     }
   
-    console.log("📝 Selected answers:", selectedQuestions);
-    console.log("📊 Result:", label, `${percentageValue}%`);
-    router.push("/result");
-  };
+    // 🔁 Mapping hasil ke slug format (untuk API)
+    const resultSlug = label.toLowerCase().replace(/\s+/g, '-'); // e.g. "Indonesia Tulen!" → "indonesia-tulen"
+  
+    try {
+      const res = await fetch('https://minigim-api.stg.antigravity.dev/v1/pride-o-meter/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': 'T95k0ZIeeBUeDyVAeB60uNNr6JMQhusxaI/cPTQRtfk=',
+        },
+        body: JSON.stringify({ result: resultSlug }),
+      });
+      
+      // console.log(res)
+      if (!res.ok) {
+        console.error('❌ Gagal kirim ke API:', await res.text());
+      } else {
+  
+        // Redirect ke result page
+        router.push("/result");
+        // console.log('✅ Berhasil submit ke API');
+      }
+    } catch (err) {
+      console.error('❌ Error saat submit:', err);
+    }
+  };  
 
   return (
     <div className="flex flex-col items-center justify-center p-6 text-white font-[family-name:var(--font-montserrat)]">
       <h1 className="text-[40px] font-bold mb-4 text-center leading-[1.2] mb-5">PILIH HAL-HAL YANG <br/> KAMU BANGET!</h1>
+
+      <div className={`fixed top-0 left-0 right-0 bottom-0 bg-black/80 flex items-center justify-center ${isLoading ? 'z-50' : 'opacity-0 pointer-events-none'}`}>
+        <span className="flex items-center gap-2 flex-col">
+          <div className="w-[100px] h-[100px] animate-spin ">
+            <Image
+              src="/images/loading.png" // ganti dengan path sesuai
+              alt="DSS"
+              className={`w-full`}
+              width={100}
+              height={100}
+              />
+          </div>
+          <span className="text-2xl mt-4 font-bold text-[#ECC953] animate-bounce">Tunggu sebentar ya...</span>
+        </span>
+      </div>
 
       {/* 🎨 DEBUG SECTION */}
       {/* <div className="w-full max-w-4xl grid grid-cols-2 gap-4 mb-6 text-black text-sm">
