@@ -79,11 +79,10 @@ export default function TriviaGrid() {
     const resultSlug = label.toLowerCase().replace(/\s+/g, '-'); // e.g. "Indonesia Tulen!" → "indonesia-tulen"
   
     try {
-      const res = await fetch('https://minigim-api.stg.antigravity.dev/v1/pride-o-meter/submit', {
+      const res = await fetch('/api/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'x-api-key': 'T95k0ZIeeBUeDyVAeB60uNNr6JMQhusxaI/cPTQRtfk=',
         },
         body: JSON.stringify({ result: resultSlug }),
       });
