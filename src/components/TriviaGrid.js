@@ -141,7 +141,7 @@ export default function TriviaGrid() {
       </div> */}
 
         {/* 🧩 ACTUAL INTERACTIVE GRID */}
-        <div className="relative w-full max-w-2xl border-[1px] border-[#F7DA6D]">
+        <div className="relative w-full max-w-3xl border-[1px] border-[#F7DA6D]">
             <div className="h-[16px] w-[16px] bg-[#ECC953] pointer-events-none absolute top-[-8px] right-[-8px] z-10"></div>
             <div className="h-[16px] w-[16px] bg-[#ECC953] pointer-events-none absolute top-[-8px] left-[-8px] z-10"></div>
             <div className="h-[16px] w-[16px] bg-[#ECC953] pointer-events-none absolute bottom-[-8px] right-[-8px] z-10"></div>
@@ -173,7 +173,7 @@ export default function TriviaGrid() {
                             width={264}
                             height={264}
                             />
-                            <div className="px-4 pb-[3.5rem] absolute top-0 left-0 bottom-0 right-0 flex flex-col items-center justify-center z-20 text-[18px] leading-[1.3] font-medium">
+                            <div className="px-4 absolute top-0 left-0 bottom-0 right-0 flex flex-col items-center justify-center z-20 text-[20px] leading-[1.3] font-bold">
                                 {q.text}
                             </div>
 

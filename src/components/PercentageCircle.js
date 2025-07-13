@@ -81,14 +81,14 @@ export default function PercentageCircle({ percentage = 0, delay = 0.5 }) {
 
         <div className="absolute inset-0 flex items-center justify-center z-20">
           <motion.span
-            className="relative block text-[108px] text-shadow-lg text-shadow-black font-bold text-[#F7DA6D] flex items-top justify-center"
+            className="relative block text-[108px] text-shadow-[0_35px_35px_rgb(0_0_0_/_0.25)] text-shadow-black font-bold text-[#F7DA6D] flex items-top justify-center"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay, duration: 0.5 }}
           >
-            <span className="block w-[140px] leading-[1]">{displayed}</span>
+            <span className="block leading-[1] italic mr-3">{displayed}</span>
 
-            <span className="block text-4xl leading-[1]">%</span>
+            <span className="block text-4xl leading-[1] italic">%</span>
           </motion.span>
         </div>
       </div>

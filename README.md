@@ -1,5 +1,12 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Need to Fix
+- Jingle & sound ketika klik klik nya disesuaikan aja sama yang ada di AG yg kira kira cocok
+- Page question: posisi text nya sepertinya terlalu atas, jadi waktu box nya dipilih, jarak dibawah text questionnya jadi lebih besar. Mungkin bisa disamakan seperti di figma aja mas, ditengah, di figma ada sample ketika teks nya panjang juga ✅
+- Ketika 100% teks nya bertumpuk ✅
+- Bertanya, kalo teks persentase nya ini style nya possible kaya di figma ini kah mas? ✅
+- Ganti font seperti di figma
+
 ## Getting Started
 
 First, run the development server:
