@@ -7,11 +7,21 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import PercentageCircle from '@/components/PercentageCircle';
 import BgWaveCustom from "@/components/BgWaveCustom";
+import useSound from '@/hooks/useSound';
 
 export default function ResultPage() {
   const router = useRouter();
   const [result, setResult] = useState(null);
   const [percentage, setPercentage] = useState(null);
+  const [activePage, setActivePage] = useState(false);
+  const playClick = useSound('/sounds/click.mp3', 1);
+
+  const gantiPage = () => {
+    playClick()
+    setTimeout(() => {
+      router.push("/");
+    }, 300);
+  }
 
   const getImageByResult = (label) => {
     if (label === 'Warga Rasa Turis') return '/images/hasil-1.png';
@@ -30,10 +40,17 @@ export default function ResultPage() {
       setResult(label);
       setPercentage(parseInt(pct));
     }
+
+    const timeout = setTimeout(() => {
+      setActivePage(true);
+    }, 3000); // 3 detik
+
+    return () => clearTimeout(timeout);
+
   }, [router]);
 
   return (
-    <Link href='/' className="flex fixed h-full w-full overflow-auto flex-col items-center justify-center pt-2 pb-5 px-0 lg:pt-0 lg:px-0 mt-0 font-[family-name:var(--font-montserrat)]">
+    <div onClick={gantiPage} className={`flex fixed h-full w-full overflow-auto flex-col items-center justify-center pt-2 pb-5 px-0 lg:pt-0 lg:px-0 mt-0 font-[family-name:var(--font-montserrat)] ${activePage ? '' : 'pointer-events-none'}`}>
         <BgWaveCustom bg={'/images/bg-quiz.jpg'} />
         <div className="w-[30%] flex justify-center items-center flex-col overflow-hidden mt-[-6rem]">
             <Image
@@ -91,6 +108,6 @@ export default function ResultPage() {
             />
             </>
         )}
-    </Link>
+    </div>
   );
 }

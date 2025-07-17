@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { pridefulQuestions, funTriviaQuestions } from '@/data/questions';
 import { getRandomItems } from '@/utils/shuffle';
+import useSound from '@/hooks/useSound';
+
 
 export default function TriviaGrid() {
   const router = useRouter();
@@ -31,7 +33,11 @@ export default function TriviaGrid() {
     setQuestions(combined);
   }, []);
 
+  const playClick = useSound('/sounds/click.mp3', 1);
+  const playClick2 = useSound('/sounds/open.mp3', 1);
+
   const toggleSelect = (id) => {
+    playClick()
     setSelected((prev) => {
       const next = new Set(prev);
       if (next.has(id)) {
@@ -90,9 +96,13 @@ export default function TriviaGrid() {
       // console.log(res)
       if (!res.ok) {
         console.error('❌ Gagal kirim ke API:', await res.text());
+        alert("❌ Gagal kirim ke API")
       } else {
   
         // Redirect ke result page
+        setTimeout(() => {
+          playClick2()
+        }, 900);
         router.push("/result");
         // console.log('✅ Berhasil submit ke API');
       }
@@ -103,7 +113,20 @@ export default function TriviaGrid() {
 
   return (
     <div className="flex flex-col items-center justify-center p-6 text-white font-[family-name:var(--font-montserrat)]">
-      <h1 className="text-[40px] font-bold mb-4 text-center leading-[1.2] mb-5">PILIH HAL-HAL YANG <br/> KAMU BANGET!</h1>
+      <div className="w-full flex lg:flex-col item-center lg:jutstify-center justify-between mb-5 lg:mb-10 lg:mt-8">
+
+        <div className="w-[30%] lg:w-[50%] flex justify-center items-center flex-col overflow-hidden lg:mx-auto lg:mb-5">
+        <Image
+            src="/images/logo.png" // ganti dengan path sesuai
+            alt="DSS"
+            className="w-full"
+            width={267}
+            height={88}
+        />
+        </div>
+        <h1 className="text-2xl lg:text-[40px] font-bold lg:text-center text-right leading-[1.2]">PILIH HAL-HAL YANG <br/> KAMU BANGET!</h1>
+      </div>
+      
 
       <div className={`fixed top-0 left-0 right-0 bottom-0 bg-black/80 flex items-center justify-center ${isLoading ? 'z-50' : 'opacity-0 pointer-events-none'}`}>
         <span className="flex items-center gap-2 flex-col">
@@ -191,7 +214,10 @@ export default function TriviaGrid() {
         </div>
 
         <button
-            onClick={handleSubmit}
+            onClick={() => {
+              playClick();
+              handleSubmit();
+            }}
             disabled={selected.size === 0}
             className={`w-[50%] mt-10 outline-none
             ${selected.size === 0
