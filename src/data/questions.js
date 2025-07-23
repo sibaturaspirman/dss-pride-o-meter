@@ -5,7 +5,9 @@ export const pridefulQuestions = [
     "Pernah ikutan siskamling",
     "Bisa berbahasa daerah",
     "Pernah mendukung tim Indonesia dalam pertandingan",
-    "Suka traktir temen just because",
+    "Lebih memilih produk lokal Indonesia",
+    "Lebih suka makanan khas Indonesia",
+    "Hafal 5 lagu nasional"
   ];
   
   export const funTriviaQuestions = [

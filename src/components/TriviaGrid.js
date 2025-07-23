@@ -17,13 +17,13 @@ export default function TriviaGrid() {
 
 
   useEffect(() => {
-    const selectedPrideful = getRandomItems(pridefulQuestions, 4).map((q, i) => ({
+    const selectedPrideful = getRandomItems(pridefulQuestions, 6).map((q, i) => ({
       text: q,
       type: 'prideful',
       id: `pride-${i}-${q}`,
     }));
 
-    const selectedFun = getRandomItems(funTriviaQuestions, 5).map((q, i) => ({
+    const selectedFun = getRandomItems(funTriviaQuestions, 3).map((q, i) => ({
       text: q,
       type: 'fun',
       id: `fun-${i}-${q}`,

@@ -16,7 +16,7 @@ export default function PercentageCircle({ percentage = 0, delay = 0.5 }) {
       // Animate number
       let current = 0;
       const duration = 1000;
-      const stepTime = 1000 / 60;
+      const stepTime = 2000 / 60;
       const stepAmount = percentage / (duration / stepTime);
 
       const animateCount = () => {
@@ -93,7 +93,7 @@ export default function PercentageCircle({ percentage = 0, delay = 0.5 }) {
         </div>
       </div>
 
-      <p className="text-xl mt-4 text-white font-bold tracking-widest">DARI PERTANYAAN</p>
+      {/* <p className="text-xl mt-4 text-white font-bold tracking-widest">DARI PERTANYAAN</p> */}
     </div>
   );
 }
