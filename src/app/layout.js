@@ -40,7 +40,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${montserrat.variable} antialiased`}
       >
-        <audio ref={bgmRef} src="/sounds/bgm.mp3" preload="auto" />
+        <audio ref={bgmRef} src="/sounds/bgm2.mp3" preload="auto" />
         {children}
 
         <div className="fixed bottom-10 right-10 w-[72px] h-[72px] pointer-events-none">
